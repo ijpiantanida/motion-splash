@@ -59,7 +59,7 @@ class MotionSplash
       @enabled_sizes ||= @config.sizes.reject do |size, scale|
         @config.exclude_sizes.include?(size) ||
             @config.exclude_scales.include?(scale)
-      end
+      end + @config.custom_sizes
     end
 
     def name_for(scale, size)

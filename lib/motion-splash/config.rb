@@ -24,7 +24,8 @@ class MotionSplash
         sizes: [[[320, 480], 1], [[320, 480], 2], [[320, 568], 2], [[375, 667], 2], [[414, 736], 3]],
         image_name: "Default",
         exclude_scales: [],
-        exclude_sizes: []
+        exclude_sizes: [],
+        custom_sizes: []
     }
 
     def prefix

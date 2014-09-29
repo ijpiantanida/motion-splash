@@ -15,5 +15,6 @@ Motion::Project::App.setup do |app|
 
   MotionSplash.setup(app) do |c|
     c.controller_class = "CustomSplashViewController"
+    c.custom_sizes = [[[667, 375], 2]]
   end
 end
