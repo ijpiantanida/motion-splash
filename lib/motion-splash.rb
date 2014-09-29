@@ -12,9 +12,9 @@ class MotionSplash
   def self.setup(app)
     config = Config.new(app)
     yield(config) if block_given?
+    config.finish
 
     if MotionSplash.should_generate?
-      config.finish
       app.files << File.join(File.dirname(__FILE__), 'motion-splash/generator.rb')
       app.files << File.join(File.dirname(__FILE__), 'motion-splash/config.rb')
       splash_delegate = File.join(File.dirname(__FILE__), 'motion-splash/splash_app_delegate.rb')
@@ -22,14 +22,6 @@ class MotionSplash
 
       system("touch \"#{splash_delegate}\"")
     else
-      app.info_plist['UILaunchImages'] = config.sizes.map do |size, scale|
-        {
-            "UILaunchImageSize" => "{#{size.first}, #{size.last}}",
-            "UILaunchImageName" => "#{config.image_name}-#{size.last}-#{scale}",
-            "UILaunchImageMinimumOSVersion" => "8.0",
-            "UILaunchImageOrientation" => "Portrait"
-        }
-      end
       system("touch \"#{config.app_delegate_file}\"")
     end
   end
