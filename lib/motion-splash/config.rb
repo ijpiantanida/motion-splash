@@ -22,8 +22,9 @@ class MotionSplash
         images_dir: File.join(Dir.pwd,"resources"),
         app_delegate_file: File.join(Dir.pwd, "app", "app_delegate.rb"),
         sizes: [[[320, 480], 1], [[320, 480], 2], [[320, 568], 2], [[375, 667], 2], [[414, 736], 3]],
-        image_name: "Default"
-
+        image_name: "Default",
+        exclude_scales: [],
+        exclude_sizes: []
     }
 
     def prefix

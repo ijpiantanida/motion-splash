@@ -13,5 +13,7 @@ Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'sample-1'
 
-  MotionSplash.setup(app)
+  MotionSplash.setup(app) do |c|
+    c.exclude_scales = [1]
+  end
 end
