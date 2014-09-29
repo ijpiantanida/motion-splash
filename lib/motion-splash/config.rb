@@ -46,7 +46,6 @@ class MotionSplash
       (PROPERTIES.keys - @properties_set.dup).each do |property|
         default_value = PROPERTIES[property]
         info_plist["#{prefix}#{property}"] = default_value
-        puts "SETTING #{property} to #{default_value}"
       end
     end
   end

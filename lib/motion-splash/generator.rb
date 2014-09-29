@@ -1,18 +1,25 @@
 class MotionSplash
   class Generator
     def self.generate_all
+      self.new.start
+    end
+    
+    def initialize
       @config = Config.new
       @current_index = 0
+    end
+    
+    def start
       setup_next_size
     end
 
-    def self.setup_next_size
+    def setup_next_size
       exit if @current_index >= enabled_sizes.size
       size, scale = enabled_sizes[@current_index]
       setup_for(size, scale)
     end
 
-    def self.setup_for(size, scale)
+    def setup_for(size, scale)
       puts "Generating image for #{size}@#{scale}x"
       controller_class = Kernel.const_get(@config.controller_class)
       splash_controller = controller_class.alloc.initWithNibName(nil, bundle: nil)
@@ -24,7 +31,7 @@ class MotionSplash
       splash_controller.view.frame = [[0, 0], size]
     end
 
-    def self.take_image
+    def take_image
       size, scale = enabled_sizes[@current_index]
       image = create_image_for(scale, @window)
       save_image(image, scale, size)
@@ -32,7 +39,7 @@ class MotionSplash
       setup_next_size
     end
 
-    def self.save_image(img, scale, size)
+    def save_image(img, scale, size)
       fileManager = NSFileManager.defaultManager
       image_data = UIImagePNGRepresentation(img)
       image_name = name_for(scale, size)
@@ -40,7 +47,7 @@ class MotionSplash
       fileManager.createFileAtPath(image_name, contents: image_data, attributes: nil)
     end
 
-    def self.create_image_for(scale, view)
+    def create_image_for(scale, view)
       UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, scale)
       view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
       img = UIGraphicsGetImageFromCurrentImageContext()
@@ -48,14 +55,14 @@ class MotionSplash
       img
     end
 
-    def self.enabled_sizes
-      @enabled_sizes ||= @config.sizes.reverse.reject do |size, scale|
+    def enabled_sizes
+      @enabled_sizes ||= @config.sizes.reject do |size, scale|
         @config.exclude_sizes.include?(size) ||
             @config.exclude_scales.include?(scale)
       end
     end
 
-    def self.name_for(scale, size)
+    def name_for(scale, size)
       case scale.to_i
         when 2
           size_suffix = size.last == 480 ? "" : "-#{size.last.to_i}h"
