@@ -14,15 +14,18 @@ class MotionSplash
     yield(config) if block_given?
     config.finish
 
+    splash_delegate = File.join(File.dirname(__FILE__), 'motion-splash/splash_app_delegate.rb')
+
     if MotionSplash.should_generate?
       app.files << File.join(File.dirname(__FILE__), 'motion-splash/generator.rb')
       app.files << File.join(File.dirname(__FILE__), 'motion-splash/config.rb')
-      splash_delegate = File.join(File.dirname(__FILE__), 'motion-splash/splash_app_delegate.rb')
       app.files << splash_delegate
 
       system("touch \"#{splash_delegate}\"")
     else
-      system("touch \"#{config.app_delegate_file}\"")
+      if File.mtime(splash_delegate) >= File.mtime(config.app_delegate_file)
+        system("touch \"#{config.app_delegate_file}\"")
+      end
     end
   end
 end
