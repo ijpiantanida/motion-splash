@@ -28,7 +28,7 @@ class MotionSplash
           size_suffix = size.last == 480 ? "" : "-#{size.last.to_i}h"
           "#{config.image_name}#{size_suffix}@2x"
         when 3
-          "#{config.image_name}-#{size.last.to_i}@3x"
+          "#{config.image_name}-#{size.last.to_i}h@3x"
         else
           config.image_name
              end
