@@ -6,6 +6,7 @@ class SplashLayout < MK::Layout
         add UIImageView, :icon
       end
       add UIView, :bottom_box
+      add UIVisualEffectView, :blurry_box
     end
   end
 
@@ -45,9 +46,18 @@ class SplashLayout < MK::Layout
     constraints do
       center_x.equals(:superview)
       width.equals(:center_box)
-      height.equals(30)
-
+      height.equals(40)
       bottom.equals(:superview).minus(15)
+    end
+  end
+
+  def blurry_box_style
+    effect UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight)
+    constraints do
+      center_x.equals(:bottom_box)
+      width.equals(:superview)
+      height.equals(:bottom_box).plus(60)
+      bottom.equals(:superview)
     end
   end
 end

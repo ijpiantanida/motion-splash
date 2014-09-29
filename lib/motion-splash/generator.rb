@@ -1,50 +1,69 @@
 class MotionSplash
   class Generator
     def self.generate_all
-      config = Config.new
-      controller_class = Kernel.const_get(config.controller_class)
-      enabled_sizes(config).each do |size, scale|
-        puts "Generating image for #{size}@#{scale}x"
-        splash_controller = controller_class.alloc.initWithNibName(nil, bundle: nil)
-        splash_controller.view.frame = [[0, 0], size]
-
-        image = create_image_for(scale, splash_controller)
-        save_image(config, image, scale, size)
-      end
+      @config = Config.new
+      @current_index = 0
+      setup_next_size
     end
 
-    def self.save_image(config, img, scale, size)
+    def self.setup_next_size
+      exit if @current_index >= enabled_sizes.size
+      size, scale = enabled_sizes[@current_index]
+      setup_for(size, scale)
+    end
+
+    def self.setup_for(size, scale)
+      puts "Generating image for #{size}@#{scale}x"
+      controller_class = Kernel.const_get(@config.controller_class)
+      splash_controller = controller_class.alloc.initWithNibName(nil, bundle: nil)
+      splash_controller.generator = self
+
+      @window = UIWindow.alloc.initWithFrame([[0,0], size])
+      @window.rootViewController = splash_controller
+      @window.makeKeyAndVisible
+      splash_controller.view.frame = [[0, 0], size]
+    end
+
+    def self.take_image
+      size, scale = enabled_sizes[@current_index]
+      image = create_image_for(scale, @window)
+      save_image(image, scale, size)
+      @current_index += 1
+      setup_next_size
+    end
+
+    def self.save_image(img, scale, size)
       fileManager = NSFileManager.defaultManager
       image_data = UIImagePNGRepresentation(img)
-      image_name = name_for(config, scale, size)
-      image_name = "#{config.images_dir}/#{image_name}.png"
+      image_name = name_for(scale, size)
+      image_name = "#{@config.images_dir}/#{image_name}.png"
       fileManager.createFileAtPath(image_name, contents: image_data, attributes: nil)
     end
 
-    def self.create_image_for(scale, splash_controller)
-      UIGraphicsBeginImageContextWithOptions(splash_controller.view.bounds.size, true, scale)
-      splash_controller.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+    def self.create_image_for(scale, view)
+      UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, scale)
+      view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
       img = UIGraphicsGetImageFromCurrentImageContext()
       UIGraphicsEndImageContext()
       img
     end
 
-    def self.enabled_sizes(config)
-      config.sizes.reject do |size, scale|
-        config.exclude_sizes.include?(size) ||
-            config.exclude_scales.include?(scale)
+    def self.enabled_sizes
+      @enabled_sizes ||= @config.sizes.reverse.reject do |size, scale|
+        @config.exclude_sizes.include?(size) ||
+            @config.exclude_scales.include?(scale)
       end
     end
 
-    def self.name_for(config, scale, size)
+    def self.name_for(scale, size)
       case scale.to_i
         when 2
           size_suffix = size.last == 480 ? "" : "-#{size.last.to_i}h"
-          "#{config.image_name}#{size_suffix}@2x"
+          "#{@config.image_name}#{size_suffix}@2x"
         when 3
-          "#{config.image_name}-#{size.last.to_i}h@3x"
+          "#{@config.image_name}-#{size.last.to_i}h@3x"
         else
-          config.image_name
+          @config.image_name
       end
     end
   end

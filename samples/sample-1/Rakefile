@@ -14,6 +14,6 @@ Motion::Project::App.setup do |app|
   app.name = 'sample-1'
 
   MotionSplash.setup(app) do |c|
-    c.exclude_scales = [1]
+    #c.exclude_scales = [1]
   end
 end
