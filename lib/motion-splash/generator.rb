@@ -23,7 +23,7 @@ class MotionSplash
       puts "Generating image for #{size}@#{scale}x"
       controller_class = Kernel.const_get(@config.controller_class)
       splash_controller = controller_class.alloc.initWithNibName(nil, bundle: nil)
-      splash_controller.generator = self
+      splash_controller.splash_generator = self
 
       @window = UIWindow.alloc.initWithFrame([[0,0], size])
       @window.rootViewController = splash_controller
@@ -31,7 +31,7 @@ class MotionSplash
       splash_controller.view.frame = [[0, 0], size]
     end
 
-    def take_image
+    def take_snapshot
       size, scale = enabled_sizes[@current_index]
       image = create_image_for(scale, @window)
       save_image(image, scale, size)

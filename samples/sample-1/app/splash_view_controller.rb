@@ -1,5 +1,5 @@
 class SplashController < UIViewController
-  attr_accessor :generator
+  attr_writer :splash_generator
 
   def loadView
     @layout = SplashLayout.new
@@ -8,6 +8,6 @@ class SplashController < UIViewController
 
   def viewDidAppear(animated)
     super
-    @generator.take_image
+    @splash_generator.take_snapshot
   end
 end
