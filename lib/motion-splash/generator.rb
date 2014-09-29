@@ -1,6 +1,6 @@
 class MotionSplash
   class Generator
-    def self.generate_all
+    def self.generate_snapshots
       self.new.start
     end
     
