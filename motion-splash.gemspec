@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.version       = "1.0"
   spec.authors       = ["Ignacio Piantanida"]
   spec.email         = ["ijpiantanida@gmail.com"]
-  spec.description   = "Create splash screens with RubyMotion"
-  spec.summary       = "Bring RSpec 3.0 expect syntax to MacBacon"
+  spec.description   = "Create all your splash images from any UIViewController using whatever method you like to style it.\nWith Xcode 6 and iOS 8 came the ability to create your launch images from a XIB or storyboard file. This is a huge gain over manually creating every image in all the available resolutions.\nBut as a RubyMotion developer, I try to stay away as much as possible from the Xcode environment... I present you Motion-Splash"
+  spec.summary       = "Create all your splash images from any UIViewController using whatever method you like to style it"
   spec.homepage      = "https://github.com/ijpiantanida/motion-splash"
   spec.license       = "MIT"
 
