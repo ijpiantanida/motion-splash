@@ -6,7 +6,7 @@ With Xcode 6 and iOS 8 came the ability to create your launch images from a XIB 
 
 But as a RubyMotion developer, I try to stay away as much as possible from the Xcode environment... I present you `Motion-Splash`
 
-#Installation
+# Installation
 ```
 gem install motion-splash
 
@@ -14,7 +14,7 @@ gem install motion-splash
 gem 'motion-splash'
 ```
 
-#How to use it
+# How to use it
 Require `motion-splash` in your Rakefile and add `MotionSplash.setup(app)` in your project setup block.
 
 This will add the `rake splash` task to your project.
@@ -40,7 +40,7 @@ end
 
 **NOTE: the view controller's view frame is being manually adjusted after it has been created, so be sure to adjust the subviews' frames either by using AutoLayout or manually changing their frames in `viewWillLayoutSubviews`**
 
-#Configuration
+# Configuration
 You can configure `MotionSplash` passing a block to `MotionSplash.setup`
 ```ruby
 MotionSplash.setup(app) do |c|
@@ -59,7 +59,7 @@ Avaiable options are:
 * **exclude_sizes**: Array of sizes that are not needed (ie [320, 480]). Defaults to an empty array.
 * **custom_sizes**: Array with custom sizes. Format of each entry must be [size, scale]. Defaults to empty array.
 
-#Samples
+# Samples
 Check out the two sample apps:
 
 * On the first one we create splash images using MotionKit and AutoLayout
@@ -68,7 +68,7 @@ Check out the two sample apps:
 ![Sample 1](https://raw.github.com/ijpiantanida/motion-splash/master/samples/sample-1/resources/Default.png)
 ![Sample 2](https://raw.github.com/ijpiantanida/motion-splash/master/samples/sample-2/resources/Default.png)
 
-#How does it work?
+# How does it work?
 When running the `rake splash` task, your `AppDelegate#application:didFinishLaunchingWithOptions:` will be overwritten with a custom implementation. 
 
 For every enabled size, a `UIWindow` is created with the appropiate frame size and setted as keyAndVisible. After your view controller is presented, you should call `#take_snapshot` (usually within `#viewDidAppear`) and an image will be created drawing the `UIWindow` with `#drawViewHierarchyInRect`. Using `UIWindow` allows us to make crazy thinks like using `UIVisualEffectView`
