@@ -1,3 +1,6 @@
+**DEPRECATED**   
+**I stopped developing in RubyMotion long time ago and can no longer maintain the project.**
+
 # Motion-Splash
 
 Create all your splash images from any UIViewController using whatever method you like to style it.
